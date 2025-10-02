@@ -1,6 +1,9 @@
 class StringCalculator
     def add(integer_string)
+        # when integer_string is empty
         return 0 if integer_string.empty?
-        return integer_string.to_i if integer_string.length == 1
+
+        # when integer_string has more than 1 integer empty
+        integer_string.split(",").map(&:to_i).sum
     end
 end
