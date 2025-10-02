@@ -17,22 +17,26 @@ class StringCalculator
         delimiter = /,|\n/
 
         # when integer_string has negative numbers
-        integers = split_string(integer_string, delimiter).map(&:to_i).reject { |n| n > 1000 }
+        integers = split_string(integer_string).map(&:to_i).reject { |n| n > 1000 }
         parse_negatives(integers)
 
         # when integer_string has more than 1 integer empty
-        if integer_string.start_with?("//")
-            parts = split_string(integer_string, "\n", 2)
-            delimiter = Regexp.new(Regexp.escape(parts[0][2..]))
-            integer_string = parts[1]
-        end
-
-        split_string(integer_string, delimiter).map(&:to_i).reject { |n| n > 1000 }.sum
+        split_string(integer_string).map(&:to_i).reject { |n| n > 1000 }.sum
     end
 
     private
-    def split_string(input, delimiter, limit = 0)
-        input.split(delimiter, limit)
+    def split_string(integer_string)
+        if integer_string.start_with?("//")
+            header, nums = integer_string.split("\n", 2)
+            delimiters = header.scan(/\[(.*?)\]/).flatten
+            if delimiters.empty?
+                delimiters = [header[2]]
+            end
+            regex = Regexp.union(delimiters)
+            nums.split(regex)
+        else
+            integer_string.split(/,|\n/)
+        end
     end
 
     def parse_negatives(integers)
