@@ -1,5 +1,16 @@
 class StringCalculator
+    def initialize
+        @call_count = 0
+    end
+
+    def get_called_count
+        @call_count
+    end
+
     def add(integer_string)
+        #update call count
+        @call_count += 1
+
         # when integer_string is empty
         return 0 if integer_string.empty?
 
