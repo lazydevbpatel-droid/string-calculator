@@ -24,7 +24,7 @@ RSpec.describe StringCalculator do
     expect(sc.add("1\n2,3")).to eq(6)
   end
 
-  it "Support different delimiters:" do
+  it "Support different delimiters" do
     expect(sc.add("//;\n1;2")).to eq(3)
   end
 end
