@@ -32,4 +32,10 @@ RSpec.describe StringCalculator do
     expect { sc.add("1,-2,-3") }
       .to raise_error("negatives not allowed: -2, -3")
   end
+
+  it "tracks how many times add was called" do
+    sc.add("1,2")
+    sc.add("3")
+    expect(sc.get_called_count).to eq(2)
+  end
 end
