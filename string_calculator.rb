@@ -17,7 +17,7 @@ class StringCalculator
         delimiter = /,|\n/
 
         # when integer_string has negative numbers
-        integers = split_string(integer_string, delimiter).map(&:to_i)
+        integers = split_string(integer_string, delimiter).map(&:to_i).reject { |n| n > 1000 }
         parse_negatives(integers)
 
         # when integer_string has more than 1 integer empty
@@ -27,7 +27,7 @@ class StringCalculator
             integer_string = parts[1]
         end
 
-        split_string(integer_string, delimiter).map(&:to_i).sum
+        split_string(integer_string, delimiter).map(&:to_i).reject { |n| n > 1000 }.sum
     end
 
     private
