@@ -51,5 +51,4 @@ RSpec.describe StringCalculator do
   it "supports multiple custom delimiters" do
     expect(sc.add("//[*][%]\n1*2%3")).to eq(6)
   end
-
 end
