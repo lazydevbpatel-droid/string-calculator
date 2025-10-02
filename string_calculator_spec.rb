@@ -41,5 +41,6 @@ RSpec.describe StringCalculator do
   
   it "ignores numbers greater than 1000" do
     expect(sc.add("2,1001")).to eq(2)
+    expect(sc.add("1000,3")).to eq(1003) # 1000 is allowed
   end
 end
