@@ -51,4 +51,8 @@ RSpec.describe StringCalculator do
   it "supports multiple custom delimiters" do
     expect(sc.add("//[*][%]\n1*2%3")).to eq(6)
   end
+
+  it "treats * as multiply sign" do
+    expect(sc.add("//[*]\n5*2*3")).to eq(30)
+  end
 end
