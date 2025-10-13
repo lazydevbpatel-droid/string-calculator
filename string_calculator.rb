@@ -1,3 +1,4 @@
+require "pry"
 class StringCalculator
     def initialize
         @call_count = 0
@@ -14,14 +15,13 @@ class StringCalculator
         # when integer_string is empty
         return 0 if integer_string.empty?
 
-        delimiter = /,|\n/
+        numbers, operation = split_string(integer_string)
+
+        numbers = numbers.map(&:to_i).reject { |n| n > 1000 }
 
         # when integer_string has negative numbers
-        integers = split_string(integer_string).map(&:to_i).reject { |n| n > 1000 }
-        parse_negatives(integers)
-
-        # when integer_string has more than 1 integer empty
-        split_string(integer_string).map(&:to_i).reject { |n| n > 1000 }.sum
+        parse_negatives(numbers)
+        operation == :multiply ? numbers.inject(1, :*) : numbers.sum
     end
 
     private
@@ -29,13 +29,18 @@ class StringCalculator
         if integer_string.start_with?("//")
             header, nums = integer_string.split("\n", 2)
             delimiters = header.scan(/\[(.*?)\]/).flatten
-            if delimiters.empty?
-                delimiters = [header[2]]
+            delimiters = [header[2]] if delimiters.empty?
+
+            # Check if single delimiter is "*"
+            if delimiters.length == 1 && delimiters.first == "*"
+                numbers = nums.split("*")
+                return [numbers, :multiply]
             end
+
             regex = Regexp.union(delimiters)
-            nums.split(regex)
+            [nums.split(regex), :sum]
         else
-            integer_string.split(/,|\n/)
+            [integer_string.split(/,|\n/), :sum]
         end
     end
 
